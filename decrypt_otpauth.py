@@ -6,8 +6,6 @@ import hashlib
 from enum import Enum
 from urllib.parse import quote
 
-import pyqrcode
-
 from bpylist import archiver
 from bpylist.archive_types import uid
 
@@ -188,13 +186,12 @@ class DangerousUnarchive(archiver.Unarchive):
         self.unpacked_uids[index] = obj
         return obj
 
+f = open('uris.txt', 'wt')
 
 def render_qr_to_terminal(otp_uri, type, issuer, label):
-    qr = pyqrcode.create(otp_uri, error="L")
-    click.echo("")
-    click.echo(f'{type}: {issuer} - {label}')
-    click.echo(qr.terminal(quiet_zone=4))
-    click.echo("")
+    print(otp_uri, file=f)
+    f.flush()
+    print(otp_uri)
 
 
 @click.group()
@@ -291,7 +288,7 @@ def decrypt_backup(encrypted_otpauth_backup):
 
     for account in accounts:
         render_qr_to_terminal(account.otp_uri(), account.type, account.issuer, account.label)
-        input("Press Enter to continue...")
+        # input("Press Enter to continue...")
 
 
 def decrypt_backup_10(archive, password):
