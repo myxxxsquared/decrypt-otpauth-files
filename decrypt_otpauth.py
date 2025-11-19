@@ -159,7 +159,7 @@ class OTPAccount:
         counter = in_dict["counter"]
         period = in_dict["period"]
         refDate = in_dict["refDate"]
-        idx = in_dict["ID"]
+        idx = in_dict.get("ID", "")
         icon = in_dict.get("icon")
 
         return OTPAccount(
